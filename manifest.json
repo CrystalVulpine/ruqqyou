@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Ruqqyou",
+  "version": "1.0",
+
+  "description": "Browser extension to personalize your Ruqqus viewing experience.",
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.ruqqus.com/*"],
+      "js": ["ruqqyou.js", "settings/storage.js"],
+      "run_at": "document_start"
+    }
+  ],
+  
+  "options_ui": {
+    "page": "settings/settings.html"
+  },
+
+  "permissions": ["activeTab", "storage", "unlimitedStorage"],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ruqqyou@crystalvulpine.com"
+    }
+  }
+}
