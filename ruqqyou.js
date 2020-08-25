@@ -76,7 +76,57 @@ function filterGuilds() {
 	});
 }
 
+function setPageBanned(name) {
+	var newHTML = '<div class="row justify-content-around" id="main-content-row"><div class="col h-100 " id="main-content-col"><div class="row justify-content-center"><div class="col-10 col-md-5"><div class="text-center px-3 my-8"><span class="fa-stack fa-5x text-muted mb-5"><i class="fad fa-chess-rook fa-stack-1x"></i><i class="far text-danger fa-ban fa-stack-2x"></i></span><h1 class="h5">+' + name + ' is banned.</h1><p class="text-muted mb-5">Reason: Blocked by Ruqqyou</p><div><a href="/" class="btn btn-primary">Go to frontpage</a></div></div></div></div></div></div>';
+	document.getElementById('main-content-row').outerHTML = newHTML;
+	document.getElementsByClassName('container-fluid')[0].outerHTML = newHTML;
+	
+	let navbar = document.getElementById('navbar');
+	if (navbar !== undefined) {
+		navbar.parentNode.removeChild(navbar);
+	}
+}
+
+function blockPage(url) {
+	if (url.startsWith('/+')) {
+		getSetting('bannedguilds', (result) => {
+			if (result === undefined || result.bannedguilds === '') {
+				return;
+			}
+			
+			var bannedGuilds = result.bannedguilds.split('\n');
+			
+			for (let j = 0; j < bannedGuilds.length; j++) {
+				let urlParts = url.split('/');
+				let guildName = urlParts[1].substring(1);
+				if (guildName.toLowerCase() === bannedGuilds[j].toLowerCase()) {
+					setPageBanned(guildName);
+					return;
+				}
+			}
+		});
+	} else {
+		// not an elegant way to get the guild name, but ruqqus has a lack of html info so it's the only way for now
+		let guildName = document.getElementsByClassName('guild-border-top')[0].getElementsByTagName('a')[0].getAttribute('href').substring(2);
+		getSetting('bannedguilds', (result) => {
+			if (result === undefined || result.bannedguilds === '') {
+				return;
+			}
+			
+			var bannedGuilds = result.bannedguilds.split('\n');
+			
+			for (let j = 0; j < bannedGuilds.length; j++) {
+				if (guildName.toLowerCase() === bannedGuilds[j].toLowerCase()) {
+					setPageBanned(guildName);
+					return;
+				}
+			}
+		});
+	}
+}
+
 window.addEventListener('DOMContentLoaded', (event) => {
+	blockPage(location.pathname);
 	filterBadwords();
 	filterGuilds();
 });

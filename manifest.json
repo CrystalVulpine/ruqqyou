@@ -3,7 +3,7 @@
   "name": "Ruqqyou",
   "version": "1.0",
 
-  "description": "Browser extension to personalize your Ruqqus viewing experience.",
+  "description": "A browser extension for Ruqqus that personalizes your experience.",
 
   "content_scripts": [
     {
