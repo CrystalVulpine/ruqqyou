@@ -51,6 +51,32 @@ function filterBadwords() {
 	});
 }
 
+function filterGuilds() {
+	getSetting('bannedguilds', (result) => {
+		if (result === undefined || result.bannedguilds === '') {
+			return;
+		}
+		
+		var bannedGuilds = result.bannedguilds.split('\n');
+		
+		let guildNames = document.querySelectorAll('.post-meta-guild a');
+		checkPostGuilds:
+		for (let i = 0; i < guildNames.length; i++) {
+			let guildName = guildNames[i].getAttribute('href').substring(2);
+			for (let j = 0; j < bannedGuilds.length; j++) {
+				if (guildName.toLowerCase() === bannedGuilds[j].toLowerCase()) {
+					let postElement = guildNames[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+					postElement.parentNode.removeChild(postElement);
+					
+					i = i - 1;
+					continue checkPostGuilds;
+				}
+			}
+		}
+	});
+}
+
 window.addEventListener('DOMContentLoaded', (event) => {
 	filterBadwords();
+	filterGuilds();
 });

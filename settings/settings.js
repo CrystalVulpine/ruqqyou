@@ -1,10 +1,21 @@
 document.body.onload = () => {
-	getSetting('badwords', (result) => {
-		document.getElementById('badwords').value = result.badwords;
-	});
+	let submits = document.getElementsByClassName('submit');
+	for (let i = 0; i < submits.length; i++) {
+		let name = submits[i].getAttribute('name');
+		getSetting(name, (result) => {
+			let savedValue = result[name];
+			if (savedValue === undefined) {
+				savedValue = '';
+			}
+			document.getElementById(name).value = savedValue;
+		});
+	}
 }
 
-document.getElementById('badwords-submit').onclick = (e) => {
-	e.preventDefault();
-	saveSetting('badwords', document.getElementById('badwords').value);
-}
+Array.from(document.getElementsByClassName('submit')).forEach((button) => {
+	button.onclick = (e) => {
+		e.preventDefault();
+		let name = e.target.getAttribute('name');
+		saveSetting(name, document.getElementById(name).value);
+	}
+});
