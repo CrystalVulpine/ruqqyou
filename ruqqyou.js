@@ -61,14 +61,14 @@ function filterGuilds() {
 		
 		let guildNames = document.querySelectorAll('.post-meta-guild a');
 		checkPostGuilds:
-		for (let i = 0; i < guildNames.length; i++) {
-			let guildName = guildNames[i].getAttribute('href').substring(2);
-			for (let j = 0; j < bannedGuilds.length; j++) {
-				if (guildName.toLowerCase() === bannedGuilds[j].toLowerCase()) {
-					let postElement = guildNames[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+		// it's i += 2 because there's an extra a element in the post; this may need to change
+		for (const gn of guildNames) {
+			let guildName = gn.getAttribute('href').substring(2);
+			for (const bg of bannedGuilds) {
+				if (guildName.toLowerCase() === bg.toLowerCase()) {
+					let postElement = gn.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
 					postElement.parentNode.removeChild(postElement);
 					
-					i = i - 1;
 					continue checkPostGuilds;
 				}
 			}
