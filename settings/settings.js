@@ -1,7 +1,7 @@
 document.body.onload = () => {
 	let submits = document.getElementsByClassName('submit');
-	for (let i = 0; i < submits.length; i++) {
-		let name = submits[i].getAttribute('name');
+	for (const submit of submits) {
+		let name = submit.getAttribute('name');
 		getSetting(name, (result) => {
 			let savedValue = result[name];
 			if (savedValue === undefined) {

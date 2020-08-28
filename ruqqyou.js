@@ -74,14 +74,20 @@ function filterGuilds() {
 }
 
 function setPageBanned(name) {
-	var newHTML = '<div class="row justify-content-around" id="main-content-row"><div class="col h-100 " id="main-content-col"><div class="row justify-content-center"><div class="col-10 col-md-5"><div class="text-center px-3 my-8"><span class="fa-stack fa-5x text-muted mb-5"><i class="fad fa-chess-rook fa-stack-1x"></i><i class="far text-danger fa-ban fa-stack-2x"></i></span><h1 class="h5">+' + name + ' is banned.</h1><p class="text-muted mb-5">Reason: Blocked by Ruqqyou</p><div><a href="/" class="btn btn-primary">Go to frontpage</a></div></div></div></div></div></div>';
-	document.getElementById('main-content-row').outerHTML = newHTML;
-	document.getElementsByClassName('container-fluid')[0].outerHTML = newHTML;
-	
-	let navbar = document.getElementById('navbar');
-	if (navbar !== undefined) {
-		navbar.parentNode.removeChild(navbar);
+	document.body.id = 'frontpage';
+	let newHTML = '<div class="row justify-content-around" id="main-content-row"><div class="col h-100 " id="main-content-col"><div class="row justify-content-center"><div class="col-10 col-md-5"><div class="text-center px-3 my-8"><span class="fa-stack fa-5x text-muted mb-5"><i class="fad fa-chess-rook fa-stack-1x"></i><i class="far text-danger fa-ban fa-stack-2x"></i></span><h1 class="h5">+' + name + ' is banned.</h1><p class="text-muted mb-5">Reason: Blocked by Ruqqyou</p><div><a href="/" class="btn btn-primary">Go to frontpage</a></div></div></div></div></div></div>';
+	document.getElementsByClassName('container-fluid')[1].outerHTML = newHTML;
+	// the list is live, so since we removed the previous element we're still at index of 1 for the next one
+	let next = document.getElementsByClassName('container-fluid')[1];
+	if (next) {
+		next.outerHTML = '';
 	}
+}
+
+function setPageUserBanned(name) {
+	let newHTML = '<div class="row justify-content-around" id="main-content-row"><div class="col h-100 custom-gutters" id="main-content-col"><div class="row no-gutters"><div class="col-12"><div class="text-center py-7 py-md-8"><span class="fa-stack fa-2x text-muted mb-4"><i class="fas fa-square text-danger opacity-25 fa-stack-2x"></i><i class="fas text-danger fa-user-slash fa-stack-1x text-lg"></i></span><h2 class="h5">@' + name + ' is banned</h2><p class="text-muted">This account has been suspended from Ruqqus.</p><p class="text-small text-muted"><span class="font-weight-bold">Reason:</span> Blocked by Ruqqyou</p></div></div></div></div></div>';
+	document.getElementsByClassName('container-fluid')[1].outerHTML = newHTML;
+	document.getElementsByClassName('container-fluid')[1].outerHTML = '';
 }
 
 function blockPage(url) {
@@ -92,38 +98,93 @@ function blockPage(url) {
 			}
 			
 			var bannedGuilds = result.bannedguilds.split('\n');
-			
+			let guildName = url.split('/')[1].substring(1);
 			for (const bg of bannedGuilds) {
-				let urlParts = url.split('/');
-				let guildName = urlParts[1].substring(1);
 				if (guildName.toLowerCase() === bg.toLowerCase()) {
 					setPageBanned(guildName);
 					return;
+				}
+			}
+		});
+	} else if (url.startsWith('/@')) {
+		getSetting('blocks', (result) => {
+			if (result === undefined || result.blocks === '') {
+				return;
+			}
+			
+			var blocks = result.blocks.split('\n');
+			let username = url.split('/')[1].substring(1);
+			for (const block of blocks) {
+				if (username.toLowerCase() === block.toLowerCase()) {
+					setPageUserBanned(username);
 				}
 			}
 		});
 	} else {
 		// not an elegant way to get the guild name, but ruqqus has a lack of html info so it's the only way for now
-		let guildName = document.getElementsByClassName('guild-border-top')[0].getElementsByTagName('a')[0].getAttribute('href').substring(2);
-		getSetting('bannedguilds', (result) => {
-			if (result === undefined || result.bannedguilds === '') {
-				return;
-			}
-			
-			var bannedGuilds = result.bannedguilds.split('\n');
-			
-			for (const bg of bannedGuilds) {
-				if (guildName.toLowerCase() === bg.toLowerCase()) {
-					setPageBanned(guildName);
+		let guildBanner = document.getElementsByClassName('guild-border-top')[0];
+		if (guildBanner) {
+			let guildName = guildBanner.getElementsByTagName('a')[0].getAttribute('href').substring(2)
+			getSetting('bannedguilds', (result) => {
+				if (result === undefined || result.bannedguilds === '') {
 					return;
 				}
-			}
-		});
+				
+				var bannedGuilds = result.bannedguilds.split('\n');
+				
+				for (const bg of bannedGuilds) {
+					if (guildName.toLowerCase() === bg.toLowerCase()) {
+						setPageBanned(guildName);
+						return;
+					}
+				}
+			});
+		}
 	}
+}
+
+function filterUsers() {
+	getSetting('blocks', (result) => {
+		if (result === undefined || result.blocks === '') {
+			return;
+		}
+		
+		var blocks = result.blocks.split('\n');
+		
+		let posts = document.getElementsByClassName('card');
+		checkUserPosts:
+		for (let i = posts.length - 1; i >= 0; i--) {
+			let unElement = posts[i].getElementsByClassName('user-name')[0];
+			if (!unElement) {
+				continue checkUserPosts;
+			}
+			let username = unElement.innerHTML;
+			for (const block of blocks) {
+				if (username.toLowerCase() === block.toLowerCase()) {
+					posts[i].innerHTML = '<p>[You are blocking this user]</p>';
+				}
+			}
+		}
+		let comments = document.getElementsByClassName('comment');
+		checkUserComments:
+		for (let i = comments.length - 1; i >= 0; i--) {
+			let unElement = comments[i].getElementsByClassName('user-name')[0];
+			if (!unElement) {
+				continue checkUserComments;
+			}
+			let username = unElement.innerHTML;
+			for (const block of blocks) {
+				if (username.toLowerCase() === block.toLowerCase()) {
+					comments[i].innerHTML = '<p>[You are blocking this user]</p>';
+				}
+			}
+		}
+	});
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
 	blockPage(location.pathname);
 	filterBadwords();
 	filterGuilds();
+	filterUsers();
 });
