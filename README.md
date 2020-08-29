@@ -1,5 +1,5 @@
 # ruqqyou
-Ruqqyou is a browser extension for Ruqqus that personalizes your experience. It can:
+Ruqqyou is a browser extension for [Ruqqus](https://github.com/ruqqus/ruqqus) that personalizes your experience. It can:
 
 * Filter posts and comments with a custom list of words.
 * Block posts from certain guilds everywhere, as opposed to only on /all.
