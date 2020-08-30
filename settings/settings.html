@@ -8,17 +8,35 @@
 		<h1>Ruqqyou Settings</h1>
 		<h3>Filtering Options</h3>
 		
-		<label for="badwords">Word filter list:</label>
-		<textarea id="badwords" name="badwords" placeholder="Type words and phrases here, separated by line, that you don't want to see." rows="15" cols="50"></textarea>
-		<button class="submit" name="badwords">Save</button>
+		<div>
+			<label for="badwords">Word filter list:</label>
+			<textarea id="badwords" name="badwords" placeholder="Type words and phrases here, separated by line, that you don't want to see." rows="15" cols="50"></textarea>
+			<button class="submit" name="badwords">Save</button>
+		</div>
 		
-		<label for="bannedguilds">Guild ban list:</label>
-		<textarea id="bannedguilds" name="bannedguilds" placeholder="Type guild names here, separated by line, that you don't want to see anywhere on Ruqqus." rows="15" cols="50"></textarea>
-		<button class="submit" name="bannedguilds">Save</button>
+		<br>
 		
-		<label for="blocks">User block list:</label>
-		<textarea id="blocks" name="blocks" placeholder="Type usernames here, separated by line, that you don't want to see anywhere on Ruqqus." rows="15" cols="50"></textarea>
-		<button class="submit" name="blocks">Save</button>
+		<div>
+			<label for="bannedguilds">Guild ban list:</label>
+			<textarea id="bannedguilds" name="bannedguilds" placeholder="Type guild names here, separated by line, that you don't want to see anywhere on Ruqqus." rows="15" cols="50"></textarea>
+			<button class="submit" name="bannedguilds">Save</button>
+		</div>
+		
+		<br>
+		
+		<div>
+			<label for="blocks">User block list:</label>
+			<textarea id="blocks" name="blocks" placeholder="Type usernames here, separated by line, that you don't want to see anywhere on Ruqqus." rows="15" cols="50"></textarea>
+			<button class="submit" name="blocks">Save</button>
+		</div>
+		
+		<br>
+		
+		<div>
+			<label for="darkmode">
+			<input class="checkbox" type="checkbox" id="darkmode" name="darkmode"> Always enable dark mode
+			</label>
+		</div>
 	</body>
 	<script src="storage.js"></script>
 	<script src="settings.js"></script>

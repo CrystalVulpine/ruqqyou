@@ -207,4 +207,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	filterBadwords();
 	filterGuilds();
 	filterUsers();
+	
+	getSetting('darkmode', (result) => {
+		if (result === undefined || result.darkmode !== 'true') {
+			return;
+		}
+		
+		let css = document.getElementById('css-link');
+		if (css.getAttribute('href').includes('/main/')) {
+			css.href = css.href.replace('/main/', '/dark/');
+		} else {
+			css.href = css.href.replace('main.css', 'main_dark.css');
+		}
+	});
 });
