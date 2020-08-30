@@ -2,6 +2,7 @@
 Ruqqyou is a browser extension for [Ruqqus](https://github.com/ruqqus/ruqqus) that personalizes your experience. It can:
 
 * Filter posts and comments with a custom list of words.
+* Forcibly enable dark mode at all times, even when logged out.
 * Block posts from certain guilds everywhere, as opposed to only on /all.
 * Silently block users without preventing them from seeing you.
 
