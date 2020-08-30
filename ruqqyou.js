@@ -93,6 +93,14 @@ function setPageBanned(name) {
 	if (elem) {
 		elem.parentNode.removeChild(elem);
 	}
+	elem = document.getElementsByClassName('container')[0];
+	if (elem) {
+		elem.parentNode.removeChild(elem);
+	}
+	elem = document.getElementsByTagName('footer')[0];
+	if (elem) {
+		elem.parentNode.removeChild(elem);
+	}
 }
 
 function setPageUserBanned(name) {
