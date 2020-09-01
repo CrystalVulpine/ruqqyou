@@ -104,7 +104,7 @@ function setPageBanned(name) {
 }
 
 function setPageUserBanned(name) {
-	let newHTML = '<div class="row justify-content-around" id="main-content-row"><div class="col h-100 custom-gutters" id="main-content-col"><div class="row no-gutters"><div class="col-12"><div class="text-center py-7 py-md-8"><span class="fa-stack fa-2x text-muted mb-4"><i class="fas fa-square text-danger opacity-25 fa-stack-2x"></i><i class="fas text-danger fa-user-slash fa-stack-1x text-lg"></i></span><h2 class="h5">@' + name + ' is banned</h2><p class="text-muted">This account has been suspended from Ruqqus.</p><p class="text-small text-muted"><span class="font-weight-bold">Reason:</span> Blocked by Ruqqyou.</p></div></div></div></div></div>';
+	let newHTML = `<div class="row justify-content-around" id="main-content-row"><div class="col h-100 custom-gutters" id="main-content-col"><div class="row no-gutters"><div class="col-12"><div class="text-center py-7 py-md-8"><span class="fa-stack fa-2x text-muted mb-4"><i class="fas fa-square text-danger opacity-25 fa-stack-2x"></i><i class="fas text-danger fa-user-cog fa-stack-1x text-lg"></i></span><h2 class="h5">You are blocking @${name}.</h2><p class="text-muted">This user has been blocked by Ruqqyou. They won't know you blocked them.</p></div></div></div></div></div>`;
 	document.getElementsByClassName('container-fluid')[1].outerHTML = newHTML;
 	let elem = document.getElementsByClassName('container-fluid')[1];
 	elem.parentNode.removeChild(elem);
@@ -181,7 +181,7 @@ function filterUsers() {
 			let username = unElement.innerHTML;
 			for (const block of blocks) {
 				if (username.toLowerCase() === block.toLowerCase()) {
-					posts[i].innerHTML = '<p>[You are blocking this user]</p>';
+					posts[i].innerHTML = '<p>[You are blocking this user with Ruqqyou]</p>';
 				}
 			}
 		}
@@ -195,7 +195,7 @@ function filterUsers() {
 			let username = unElement.innerHTML;
 			for (const block of blocks) {
 				if (username.toLowerCase() === block.toLowerCase()) {
-					comments[i].innerHTML = '<p>[You are blocking this user with Ruqqyou]</p>';
+					comments[i].innerHTML = '<small>[You are blocking this user with Ruqqyou]</small>';
 				}
 			}
 		}
