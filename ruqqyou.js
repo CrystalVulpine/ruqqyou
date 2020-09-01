@@ -13,7 +13,7 @@ function filterBadwords() {
 			for (const commentText of commentTexts) {
 				for (const bw of badwordsList) {
 					if (commentText.innerHTML.toLowerCase().includes(bw.toLowerCase())) {
-						commentText.closest(".comment-body").outerHTML = '<small>[Removed by Ruqqyou for containing a filtered word]</small>';
+						commentText.parentNode.parentNode.outerHTML = '<small>[Removed by Ruqqyou for containing a filtered word]</small>';
 						
 						continue checkComments;
 					}
@@ -86,7 +86,7 @@ function filterGuilds() {
 
 function setPageBanned(name) {
 	document.body.id = 'frontpage';
-	let newHTML = '<div class="row justify-content-around" id="main-content-row"><div class="col h-100 " id="main-content-col"><div class="row justify-content-center"><div class="col-10 col-md-5"><div class="text-center px-3 my-8"><span class="fa-stack fa-5x text-muted mb-5"><i class="fad fa-chess-rook fa-stack-1x"></i><i class="far text-danger fa-ban fa-stack-2x"></i></span><h1 class="h5">+' + name + ' is banned.</h1><p class="text-muted mb-5">Reason: Blocked by Ruqqyou.</p><div><a href="/" class="btn btn-primary">Go to frontpage</a></div></div></div></div></div></div>';
+	let newHTML = `<div class="row justify-content-around" id="main-content-row"><div class="col h-100 " id="main-content-col"><div class="row justify-content-center"><div class="col-10 col-md-5"><div class="text-center px-3 my-8"><span class="fa-stack fa-5x text-muted mb-5"><i class="fad fa-chess-rook fa-stack-1x"></i><i class="far text-danger fa-ban fa-stack-2x"></i></span><h1 class="h5"> You are filtering ${name}.</h1><p class="text-muted mb-5">This guild has been blocked by RuqqYou.</p><div><a href="/" class="btn btn-primary">Go to frontpage</a></div></div></div></div></div></div>`;
 	document.getElementsByClassName('container-fluid')[1].outerHTML = newHTML;
 	// the list is live, so since we removed the previous element we're still at index of 1 for the next one
 	let elem = document.getElementsByClassName('container-fluid')[1];
