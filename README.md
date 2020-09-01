@@ -12,5 +12,5 @@ To install ruqqyou, [download it from here](https://github.com/CrystalVulpine/ru
  1) Go to chrome://extensions/
  2) Enable developer mode (look for the switch on the upper right corner)
  3) Click "Load unpacked"
- 4) Select the folder where you unpacked Ruqqyou
+ 4) Select the folder which contains Ruqqyou
 
