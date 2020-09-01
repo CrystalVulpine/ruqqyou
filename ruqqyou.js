@@ -13,7 +13,7 @@ function filterBadwords() {
 			for (const commentText of commentTexts) {
 				for (const bw of badwordsList) {
 					if (commentText.innerHTML.toLowerCase().includes(bw.toLowerCase())) {
-						commentText.parentNode.parentNode.outerHTML = '<p>[Removed by Ruqqyou for containing filtered word]</p>';
+						commentText.closest(".comment-body").outerHTML = '<small>[Removed by Ruqqyou for containing a filtered word]</small>';
 						
 						continue checkComments;
 					}
